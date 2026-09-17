@@ -8,6 +8,8 @@
   <author email="tabris@eclipsesource.com" href="https://tabrisjs.com">EclipseSource</author>
 
   <preference name="EnableDeveloperConsole" value="true" />
+  <!-- Same AGP as the consuming apps, so the example build mirrors their toolchain. -->
+  <preference name="AndroidGradlePluginVersion" value="8.6.1" />
 
   <plugin name="tabris-plugin-call-detection" spec="../" />
 
