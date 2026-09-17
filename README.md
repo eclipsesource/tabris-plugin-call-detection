@@ -11,14 +11,22 @@ if (callDetection.inCall) {
 
 ## Status
 
-**Skeleton.** The native side currently returns a *random* boolean so the plugin wiring
-(js-module, native handler registration, property access) can be verified on both platforms.
-Real detection lands next:
+| Platform | Signal | Permission | State |
+|---|---|---|---|
+| Android | `AudioManager.getMode()` in `MODE_RINGTONE`, `MODE_IN_CALL`, `MODE_IN_COMMUNICATION` (plus the call-screening and redirect modes) | none | **implemented**, verified on the emulator |
+| iOS | `CXCallObserver.calls` containing a call that has not ended | none | skeleton only: returns a *random* boolean until the wiring is verified on a device |
 
-| Platform | Signal | Permission |
-|---|---|---|
-| Android | `AudioManager.getMode()` in `MODE_RINGTONE` / `MODE_IN_CALL` / `MODE_IN_COMMUNICATION` | none |
-| iOS | `CXCallObserver.calls` containing a call that has not ended | none |
+### What the Android signal means
+
+Telecom switches the device audio mode while a cellular call rings, is dialed or is connected,
+and VoIP apps that integrate with Telecom or set the communication mode do the same. Reading
+the mode requires no permission and no Play Store data-safety disclosure. It is a strong risk
+signal, not proof:
+
+- It can not tell who is calling, or distinguish a fraud call from a legitimate one.
+- VoIP apps that neither use Telecom nor set `MODE_IN_COMMUNICATION` are invisible.
+- Any app that sets `MODE_IN_COMMUNICATION` (voice assistants, recorders) reads as a call.
+- Outgoing calls read as active from the moment they are dialed.
 
 ## Usage
 
@@ -65,6 +73,18 @@ from a parent folder directly):
 ```sh
 cd example && npm install && tabris run android
 ```
+
+#### Testing calls on the emulator
+
+The emulator's virtual GSM modem drives Telecom exactly like a real radio, so the audio mode
+switches the same way. With the example app running in the foreground:
+
+```sh
+example/scripts/android-call-test.sh            # incoming + outgoing call, prints inCall vs. audio mode
+```
+
+Start the emulator with `-no-audio` unless you want to hear it ring. `MODE_IN_COMMUNICATION`
+(VoIP) can not be simulated on the emulator; test it with a real device and a VoIP app.
 
 After changing anything in the plugin, run `tabris clean` first: an incremental build reuses the
 existing Cordova project and silently ends up without the plugin (`callDetection is not defined`).
