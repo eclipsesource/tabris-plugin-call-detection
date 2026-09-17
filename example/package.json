@@ -1,0 +1,8 @@
+{
+  "title": "Tabris Call Detection Example",
+  "description": "Example for the Tabris.js call detection plugin.",
+  "main": "src/app.js",
+  "dependencies": {
+    "tabris": "3.11.0-dev.20250729"
+  }
+}

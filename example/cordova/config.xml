@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        id="com.eclipsesource.tabris.calldetection.example"
+        version="0.1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>Call Detection Plugin Example for Tabris.js</name>
+  <description>Example for the Tabris.js call detection plugin.</description>
+  <author email="tabris@eclipsesource.com" href="https://tabrisjs.com">EclipseSource</author>
+
+  <preference name="EnableDeveloperConsole" value="true" />
+
+  <plugin name="tabris-plugin-call-detection" spec="../" />
+
+  <hook type="before_platform_add" src="www/app/scripts/add-plugin-from-parent-directory.sh" />
+</widget>

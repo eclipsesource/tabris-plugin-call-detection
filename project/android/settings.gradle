@@ -1,0 +1,3 @@
+include 'call-detection'
+
+rootProject.name = 'tabris-plugin-call-detection'

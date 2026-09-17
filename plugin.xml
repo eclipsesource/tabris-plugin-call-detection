@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="tabris-plugin-call-detection"
+        version="0.1.0">
+
+  <name>Tabris.js Call Detection Plugin</name>
+  <description>Reports whether a phone call is currently active on the device. No UI, no runtime permissions.</description>
+  <author>EclipseSource</author>
+  <license>Revised BSD License (3-clause license)</license>
+
+  <engines>
+    <engine name="cordova-android" version=">=12.0.0" />
+  </engines>
+
+  <js-module src="www/CallDetection.js" name="callDetection">
+    <clobbers target="callDetection" />
+  </js-module>
+
+  <platform name="android">
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <meta-data
+          android:name="com.eclipsesource.tabris.android.HANDLER.com.eclipsesource.calldetection"
+          android:value="com.eclipsesource.tabris.calldetection.CallDetectionHandler" />
+    </config-file>
+
+    <source-file src="src/android/com/eclipsesource/tabris/calldetection/CallDetectionHandler.kt"
+                 target-dir="src/com/eclipsesource/tabris/calldetection" />
+
+  </platform>
+
+  <platform name="ios">
+
+    <config-file target="*TabrisPlugins.plist" parent="classes">
+      <array>
+        <string>ESCallDetection</string>
+      </array>
+    </config-file>
+
+    <header-file src="src/ios/ESCallDetection.h" />
+    <source-file src="src/ios/ESCallDetection.m" />
+
+  </platform>
+
+</plugin>

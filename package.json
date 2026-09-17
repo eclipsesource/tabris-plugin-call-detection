@@ -1,0 +1,36 @@
+{
+  "name": "tabris-plugin-call-detection",
+  "version": "0.1.0",
+  "description": "Tabris.js plugin that reports whether a phone call is currently active on the device.",
+  "types": "./types/index.d.ts",
+  "peerDependencies": {
+    "tabris": "^3.11.0-dev"
+  },
+  "cordova": {
+    "id": "tabris-plugin-call-detection",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "ecosystem:tabris",
+    "cordova-android",
+    "cordova-ios",
+    "tabris",
+    "tabris.js",
+    "call",
+    "callkit",
+    "telephony"
+  ],
+  "engines": {
+    "cordovaDependencies": {
+      "0.1.0": {
+        "cordova-android": ">=12.0.0"
+      }
+    }
+  },
+  "author": "EclipseSource",
+  "license": "Revised BSD License (3-clause license)"
+}

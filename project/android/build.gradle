@@ -1,0 +1,24 @@
+buildscript {
+    ext {
+        kotlin_version = '1.9.24'
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.3.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            // provides the tabris client library from the locally installed Tabris.js Android platform
+            url uri("${System.getenv('TABRIS_ANDROID_PLATFORM')}/templates/project/m2repository")
+        }
+    }
+}

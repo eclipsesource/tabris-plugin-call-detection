@@ -1,0 +1,11 @@
+{
+  "name": "tabris-plugin-call-detection-example",
+  "devDependencies": {
+    "tabris-plugin-call-detection": "../"
+  },
+  "cordova": {
+    "plugins": {
+      "tabris-plugin-call-detection": {}
+    }
+  }
+}
