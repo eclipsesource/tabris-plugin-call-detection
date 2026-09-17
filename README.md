@@ -14,7 +14,7 @@ if (callDetection.inCall) {
 | Platform | Signal | Permission | State |
 |---|---|---|---|
 | Android | `AudioManager.getMode()` in `MODE_RINGTONE`, `MODE_IN_CALL`, `MODE_IN_COMMUNICATION` (plus the call-screening and redirect modes) | none | **implemented**, verified on the emulator |
-| iOS | `CXCallObserver.calls` containing a call that has not ended | none | skeleton only: returns a *random* boolean until the wiring is verified on a device |
+| iOS | `CXCallObserver.calls` containing a call that has not ended | none | **implemented**; compiles and runs on the Simulator, real-call test on a device pending |
 
 ### What the Android signal means
 
@@ -27,6 +27,19 @@ signal, not proof:
 - VoIP apps that neither use Telecom nor set `MODE_IN_COMMUNICATION` are invisible.
 - Any app that sets `MODE_IN_COMMUNICATION` (voice assistants, recorders) reads as a call.
 - Outgoing calls read as active from the moment they are dialed.
+
+### What the iOS signal means
+
+CallKit reports every call the system knows about, without permission and without exposing who
+is calling: cellular calls and VoIP calls of apps that integrate with CallKit (FaceTime,
+WhatsApp and most others). A call counts from dialing or ringing until it has ended.
+
+- VoIP apps that do not use CallKit are invisible.
+- With Live Voicemail enabled (iOS 17+), a declined incoming call may still count as active
+  until the caller hangs up.
+- The Simulator has no calls; `inCall` is always `false` there.
+- Apple documents `CXCallObserver` for observing the system's calls; it is widely used for this
+  purpose, but there is no API contract that other apps' calls will always be reported.
 
 ## Usage
 
@@ -62,7 +75,18 @@ cd project/android && ./gradlew :call-detection:assembleDebug
 ### iOS
 
 The Objective-C sources in `src/ios` are compiled as part of the app build
-(`tabris build ios`); there is no separate Xcode project.
+(`tabris build ios`); there is no separate Xcode project. Xcode 14.3.1 (iOS 16.4 SDK) is
+sufficient to build and run the example on the Simulator:
+
+```sh
+cd example && npm install && tabris build ios --debug --emulator
+xcrun simctl install booted "build/cordova/platforms/ios/build/emulator/Call Detection Plugin Example for Tabris.js.app"
+xcrun simctl launch booted com.eclipsesource.tabris.calldetection.example
+```
+
+If your npm is configured for the old `npm.tabrisjs.com` mirror, prefix the build with
+`npm_config_registry=https://registry.npmjs.org/`: the mirror serves tarballs whose checksums
+do not match `package-lock.json`.
 
 ### Example app
 

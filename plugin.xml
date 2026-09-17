@@ -38,6 +38,8 @@
       </array>
     </config-file>
 
+    <framework src="CallKit.framework" />
+
     <header-file src="src/ios/ESCallDetection.h" />
     <source-file src="src/ios/ESCallDetection.m" />
 
